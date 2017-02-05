@@ -31,6 +31,15 @@ rm -rf /usr/share/doc
 pip install pyusb==1.0.0b1
 pip install qrcode
 pip install evdev
+pip install pycountry
+pip install unidecode
+
+mkdir /home/pi/odoo/temp
+cd /home/pi/odoo/temp
+wget https://github.com/shewolfParis/odoo-production/archive/9.0.zip
+unzip 9.0.zip
+cp -r odoo-production-9.0/extra_addons/hw_* /home/pi/odoo/addons/
+rm -r /home/pi/odoo/temp
 
 groupadd usbusers
 usermod -a -G usbusers pi
@@ -54,6 +63,7 @@ update-rc.d -f isc-dhcp-server remove
 systemctl daemon-reload
 systemctl enable ramdisks.service
 systemctl disable dphys-swapfile.service
+systemctl enable ssh.service
 
 # https://www.raspberrypi.org/forums/viewtopic.php?p=79249
 # to not have "setting up console font and keymap" during boot take ages

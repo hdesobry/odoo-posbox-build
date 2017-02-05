@@ -1,1 +1,1 @@
-Scripts to build an Odor postbox image for Raspberry PI
+Scripts to build an Odor PoSBox image for Raspberry PI

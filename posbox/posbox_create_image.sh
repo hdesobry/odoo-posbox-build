@@ -20,6 +20,8 @@ require_command () {
 require_command kpartx
 require_command qemu-system-arm
 require_command zerofree
+require_command curl
+require_command wget
 
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 __file="${__dir}/$(basename "${BASH_SOURCE[0]}")"
@@ -63,14 +65,15 @@ mv /tmp/ngrok "${USR_BIN}"
 dd if=/dev/zero bs=1M count=2048 >> posbox.img
 
 # resize partition table
-START_OF_ROOT_PARTITION=$(fdisk -l posbox.img | tail -n 1 | awk '{print $2}')
+START_OF_ROOT_PARTITION=$(fdisk -l posbox.img | tail -n 1 | awk '{print $3}')
 (echo 'p';                          # print
  echo 'd';                          # delete
  echo '2';                          #   second partition
  echo 'n';                          # create new partition
  echo 'p';                          #   primary
  echo '2';                          #   number 2
- echo "${START_OF_ROOT_PARTITION}"; #   starting at previous offset
+ #echo "${START_OF_ROOT_PARTITION}"; #   starting at previous offset
+ echo '137216'; #   starting at previous offset
  echo '';                           #   ending at default (fdisk should propose max)
  echo 'p';                          # print
  echo 'w') | fdisk posbox.img       # write and quit
